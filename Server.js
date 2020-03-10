@@ -35,21 +35,20 @@ app.get('/index', function(req, res){
     res.json({formulas:recent.get(session)});
 });
 
-// if (process.env.NODE_ENV === 'production'){
-//Express will serve up production assets
-//like our main.js and main.css file
-app.use(express.static('client/build'));
+if (process.env.NODE_ENV === 'production'){
+    //Express will serve up production assets
+    //like our main.js and main.css file
+    app.use(express.static('client/build'));
 
-//Express will serve up the index.html file
-//if it does not recognize the route
-const path = require('path');
-app.get('*', (req,res)=>{
-    res.sendFile(path.resolve(__dirname,'client','build','index.html'));
-});
-// }
+    //Express will serve up the index.html file
+    //if it does not recognize the route
+    const path = require('path');
+    app.get('*', (req,res)=>{
+        res.sendFile(path.resolve(__dirname,'client','build','index.html'));
+    });
+}
 
 io.use(sharedsession(session));
-
 io.on('connection', function(socket){
     const id =  socket.handshake.cookies.sessionID;
     socket.on('calculate', function(msg){
