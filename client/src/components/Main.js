@@ -23,12 +23,13 @@ class Main extends Component{
 
     componentDidMount(){
         axios.get('/index',{}).then(res=>{
-            this.setState({formulas: res.data.formulas});
+            console.log(res.data);
+            this.setState({formulas: res.data.formulas || []});
         });
         const endpoint = "http://localhost:" + (process.env.PORT || 5000);
         this.socket = socketIOClient(endpoint);
         this.socket.on("calculate", data => {
-            this.state.formulas.push(data);
+            this.state.formulas.push(data || "");
             this.setState({formulas: this.state.formulas});
         });
     }
