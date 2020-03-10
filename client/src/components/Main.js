@@ -33,7 +33,7 @@ class Main extends Component{
             console.log(res.data);
             this.setState({formulas: res.data.formulas || []});
         });
-        const endpoint = "http://localhost:" + (process.env.PORT || 5000);
+        const endpoint = "http://localhost:" + (process.env.PORT || 443);
         this.socket = socketIOClient(endpoint);
         this.socket.on("calculate", data => {
             this.state.formulas.push(data || "");
