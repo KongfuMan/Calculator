@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "node Server.js",
-    "heroku-postbuild": "cd Client && npm install && npm run build"
+    "heroku-postbuild": "cd Client && npm install && npm run build && npm start"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
