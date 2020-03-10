@@ -33,8 +33,11 @@ class Main extends Component{
             console.log(res.data);
             this.setState({formulas: res.data.formulas || []});
         });
+        const production  = 'https://thawing-castle-87375.herokuapp.com';
+        const development = 'http://localhost:3000/';
+        const url = (process.env.NODE_ENV ? production : development);
         const endpoint = "https://localhost:" + (process.env.PORT || 443);
-        this.socket = socketIOClient(endpoint);
+        this.socket = socketIOClient(url);
         this.socket.on("calculate", data => {
             this.state.formulas.push(data || "");
             this.setState({formulas: this.state.formulas});
