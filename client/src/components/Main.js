@@ -11,7 +11,9 @@ class Main extends Component{
             formulas:[],
             leftValue: 0,
             rightValue: 0,
-            operator: '+'
+            operator: '+',
+            submitUser: false,
+            username : ""
         }
 
     }
@@ -22,6 +24,11 @@ class Main extends Component{
     }
 
     componentDidMount(){
+
+    }
+
+    handleSubmitUser(){
+        this.setState({submitUser : true});
         axios.get('/index',{}).then(res=>{
             console.log(res.data);
             this.setState({formulas: res.data.formulas || []});
@@ -55,6 +62,10 @@ class Main extends Component{
         })
     }
 
+    handleUsernameChange(event){
+        this.setState({username: event.target.value});
+    }
+
     handleSubmit(){
         console.log(this.state.leftValue);
         console.log(this.state.rightValue);
@@ -67,6 +78,14 @@ class Main extends Component{
     }
 
     render(){
+        if (!this.state.submitUser){
+            return (<div>
+                <label className="label-style">Input user name</label>
+                <input type="text" value={this.state.username}
+                       onChange={(e)=>{this.handleUsernameChange(e)}} />
+                <button className="btn-primary" onClick={()=>this.handleSubmitUser()}>Submit</button>
+            </div>);
+        }
         return(
             <div className="card card-style">
                 <div>Tootal formula count {this.state.formulas.length}</div>
