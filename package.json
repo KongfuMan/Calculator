@@ -11,7 +11,8 @@
     "socket.io": "^1.7.3"
   },
   "scripts": {
-    "start": "node Server.js"
+    "start": "node Server.js",
+    "heroku-postbuild": "cd Client && npm start"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
