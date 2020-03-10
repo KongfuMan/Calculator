@@ -12,7 +12,11 @@
   },
   "scripts": {
     "start": "node Server.js",
-    "heroku-postbuild": "cd Client && npm install && npm run build && npm start"
+    "server": "nodemon Server.js",
+    "client": "npm run start --prefix Client",
+    "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run webhook\" ",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix Client && npm run build --prefix Client",
+    "webhook": "lt -p 5000 -s chenliangsjtu123"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
