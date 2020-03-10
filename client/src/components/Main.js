@@ -88,7 +88,7 @@ class Main extends Component{
         }
         return(
             <div className="card card-style">
-                <div>Tootal formula count {this.state.formulas.length}</div>
+                <div>Total formula count {this.state.formulas.length}</div>
                 <ul className="formula-list">
                     {this.renderFormulas()}
                 </ul>

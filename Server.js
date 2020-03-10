@@ -16,18 +16,6 @@ app.use(cookieParser());
 
 var recent = new Map(); // store session id : most recent 10;
 
-if (process.env.NODE_ENV === 'production'){
-    //Express will serve up production assets
-    //like our main.js and main.css file
-    app.use(express.static('client/build'));
-
-    //Express will serve up the index.html file
-    //if it does not recognize the route
-    const path = require('path');
-    app.get('*', (req,res)=>{
-        res.sendFile(path.resolve(__dirname,'client','build','index.html'));
-    });
-}
 
 app.get('/index', function(req, res){
     var session = req.cookies.sessionID; // get
@@ -43,8 +31,22 @@ app.get('/index', function(req, res){
     if (!recent.get(session)){
         recent.set(session, []);
     }
+    console.log("recent.get(session)",recent.get(session));
     res.json({formulas:recent.get(session)});
 });
+
+// if (process.env.NODE_ENV === 'production'){
+//Express will serve up production assets
+//like our main.js and main.css file
+app.use(express.static('client/build'));
+
+//Express will serve up the index.html file
+//if it does not recognize the route
+const path = require('path');
+app.get('*', (req,res)=>{
+    res.sendFile(path.resolve(__dirname,'client','build','index.html'));
+});
+// }
 
 io.use(sharedsession(session));
 
@@ -61,7 +63,7 @@ io.on('connection', function(socket){
             case '/' : res = num1 / num2; break;
         }
         const formula = (msg.m + ' ' + msg.p + ' ' + msg.n + ' ' + '=' + ' ' + res);
-        let results = recent.get(id);
+        let results = recent.get(id) || [];
         if (results.length < 10){
             results.push(formula);
         }else{
